@@ -9,6 +9,9 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from time import sleep
+# for folder creation
+import os
+
 
 ############  Path & target url ##########################
 path = "c:\\Users\\fabio\\Downloads"
@@ -43,6 +46,26 @@ title_link = soup.select('#competition_name h2')
 # print the title:
 print(f'\nThis is the event title: {title_link[0].string}\n')
 
+############# Create a folder and subfolder from title: ##########
+title_list = (title_link[0].string).split(', ')
+title = title_list[0]
+title_date = title_list[-1]
+
+path = (f'./{title}-{title_date}')
+subpath = (f'./{title}-{title_date}/img')
+# check whether directory already exists
+if not os.path.exists(path):
+  os.mkdir(path)
+  print("Folder %s created!" % path)
+else:
+  print("Folder %s already exists" % path)
+
+# check whether subdirectory exists
+if not os.path.exists(subpath):
+  os.mkdir(subpath)
+  print("Folder %s created!" % subpath)
+else:
+  print("Folder %s already exists" % subpath)
 
 ############# Get a list of all events at competion: ################
 all_title_links = soup.find_all('a', class_='menulink')
